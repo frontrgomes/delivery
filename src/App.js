@@ -1,26 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import ReactTooltip from 'react-tooltip';
+import { Container,Menu, PageBody} from './AppStyled';
+import HomeScreen from './pages/HomeScreen';
+import Tela2Screen from './pages/Tela2Screen';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import PrivateRoute from './components/PrivateRoute';
+import MenuItem from './components/MenuItem';
+import Cart from './components/Cart';
+
+export default () => {
+
+
+    return (
+        <BrowserRouter>
+            <Container>
+                <Menu>
+                    <MenuItem title="Loja" icon="/assets/store.png" link="/"/>
+                    <MenuItem title="Pedidos" icon="/assets/order.png" link="/orders"/>
+                    <MenuItem title="Meu Perfil" icon="/assets/profile.png" link="/profile"/>
+                </Menu>
+                <PageBody>
+                    <Switch>
+                        <Route exact path="/">
+                            <HomeScreen />
+                        </Route>
+                        <PrivateRoute exact path="/orders">
+                            <div>Tela de Pedidos</div>
+                        </PrivateRoute>
+                        <PrivateRoute exact path="/profile">
+                            <div>Tela de Perfil</div>
+                        </PrivateRoute>
+
+                        <Route path="/tela2/:nome">
+                            <Tela2Screen />
+                        </Route>
+                    </Switch>
+                </PageBody>
+                <Cart/>
+                <ReactTooltip id="tip-top" place="top" effect="solid"/>
+                <ReactTooltip id="tip-right" place="right" effect="solid"/>
+            </Container>
+        </BrowserRouter>
+    );
 }
-
-export default App;
